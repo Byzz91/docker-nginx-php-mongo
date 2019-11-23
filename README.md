@@ -6,6 +6,13 @@ Docker running Nginx, PHP-FPM, Mongo.
 
 **DO NOT USE IT IN PRODUCTION!**
 
+## Commands
+
+* docker-compose up -d
+* docker-compose down
+* docker-compose logs
+* https://github.com/laradock/laradock/issues/1663#issuecomment-460714360
+
 ## Images to use
 
 * [Nginx](https://hub.docker.com/_/nginx/)
