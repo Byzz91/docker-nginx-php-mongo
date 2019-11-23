@@ -9,7 +9,7 @@ services:
         volumes:
             - "./etc/nginx/default.conf:/etc/nginx/conf.d/default.conf"
             - "./etc/ssl:/etc/ssl"
-            - "./web:/web"
+            - "./web/public:/var/www/SyncMe_SERVER"
         depends_on:
             - "php"
             - "mongodb"
@@ -18,18 +18,23 @@ services:
         restart: always
         volumes:
             - "./etc/php/php.ini:/usr/local/etc/php/conf.d/php.ini"
-            - ./web:/web
+            - ./web/public:/var/www/SyncMe_SERVER
     composer:
         image: composer/composer
         volumes:
-            - ./web/app:/app
+            - ./web/public:/var/www/SyncMe_SERVER
+        working_dir: /var/www/SyncMe_SERVER
         command: install
     mongodb:
         image: mongo
         container_name: mongo
         restart: always
         volumes:
-            - ./data/db/mongo:/data/db
+            - "mongodbdata:/data/db"
         ports:
             - "27020:27017"
-        command: --storageEngine wiredTiger
+        command: mongod --logpath=/dev/null
+
+volumes:
+    mongodbdata:
+        external: true
