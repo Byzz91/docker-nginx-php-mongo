@@ -15,14 +15,22 @@ services:
         depends_on:
             - "php"
             - "mongodb"
+            - "redis"
     php:
-        image: dvlpm/php7.4-dev
+        image: airtimerewards/php7.4
         container_name: php
         restart: always
         volumes:
             - "./etc/php/php.ini:/usr/local/etc/php/conf.d/php.ini"
             - ./web/public:/var/www/SyncMe_SERVER
             - "uploaddata:/var/www/SyncMe_UPLOAD"
+    redis:
+        image: redis
+        container_name: redis
+        restart: always
+        entrypoint: redis-server --appendonly yes
+        ports:
+            - "6379:6379"
     composer:
         image: composer/composer
         container_name: composer
